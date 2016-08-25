@@ -180,21 +180,33 @@ if __name__ == '__main__':
     word = g.readlines()	
     
     #print word_list		
-    books = ['Text1_Pride.txt','Text2_Imp.txt','Text3_Iliad.txt','Text4_Jeeves.txt','Text5_SecretGarden.txt'] 	
+    books = {'Text1_Pride.txt':'Jane Austen','Text2_Imp.txt':'Oscar Wilde','Text3_Iliad.txt':'Homer','Text4_Jeeves.txt':'P.G. Wodehouse','Text5_SecretGarden.txt':'Burnett'} 	
+    	
     #books = ['Text1_Pride.txt']
     ending = []
     full = []	
-    num = []	
+    num = []
+    ranking = []	
+    max_words = 0	
+    author = ''	
     unique_word_list,tmp = func(word) 		
     for i in range(len(books)):	
-    	f = open(books[i])	
+	#print i,books.keys()[i]
+    	f = open(books.keys()[i])	
 	tweets = f.readlines()
 	temp1,temp2 = func(tweets)
 	num.append(common(temp1,unique_word_list))
     	ending.append(temp1)	 		
 	full.append(temp2)	 				
-	print "The sample file has",num[i],"words common with the book",books[i]				
+	if num[i] > max_words:
+		max_words = num[i]
+		author = books.values()[i]
+	#print "The sample file has",num[i],"words common with the book",books.keys()[i]
+	ranking.append([books.values()[i],num[i]])
     
-
+    ranking.sort(key=lambda x: x[-1],reverse=True)			
+    for r in ranking:
+	print r[0],":",r[1]	
+    print "The sample file is classified as the work of",author
 
 
